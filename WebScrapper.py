@@ -59,6 +59,7 @@ def brand_URL(hrefList,tableHeaders):
 def list_To_Keys(tableHeaders,finalList):
     #takes on teh brand names assigns them to keys in a directory
     for i in tableHeaders:
+        # takes each of the brand names and added them to a key in the directory
         finalList[i]= []
     return(finalList)
 
@@ -66,14 +67,23 @@ def list_To_Keys(tableHeaders,finalList):
 def href_To_Values(hrefList,finalList):
     # this gets all of the keys from the final list, uses those keys to check if there are any matches href list, if their are will assign those values to the correct key
     for items in finalList.keys():
+        # Gets all keys/brand names from final list and stores in Var Items
         for elements in hrefList:
+            #Gets all href from list and assigns them to element
+
             if items in elements:
-                finalList[items].append(element)
-                
+                # Check each href link to see if one it contains one of the brand names
+                if elements not in finalList[items]:
+                    # Checks to see if the href link as already been added to the final list dir
+                    finalList[items].append(elements)
+
+    return(finalList)
+def searchURLs():
+    
 
 
 def main():
-    x = 0
+    
     finalList = {}
     url = 'https://beavertools.com/brands.html'
     hrefList = HrefList(url)
@@ -81,6 +91,7 @@ def main():
     tableHeaders= table_Headers(hrefList,word)
     brandURL = brand_URL(hrefList,tableHeaders)
     listToKeys =list_To_Keys(tableHeaders,finalList)
+    hrefToValues = href_To_Values(hrefList,finalList)
     print(finalList)
     
 
