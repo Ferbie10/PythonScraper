@@ -18,7 +18,9 @@ for items in finalList.keys():
                 finalList[items].append(elements)
 
                 
-                
+for key, value in finalList.items():
+    for i in value:
+        print(key,' : ', i)
             
 
         
