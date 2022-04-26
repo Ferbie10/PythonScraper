@@ -28,7 +28,6 @@ def table_Headers(hrefList,word):
         if word in elements:
             counter = Counter(elements)
             y= int(counter['/'])
-            x = 4
             # can be input to allow direct grab of a word
             # this takes a href link then splits it on ever / gets the 5 element 
             if y >= 4:
@@ -36,10 +35,17 @@ def table_Headers(hrefList,word):
               # checks the brand name for .html extension, if it has it gets removed
               html = ".html"
               if html in brands:
-                  brand = brands.split('.',1)[0] 
-                  if brand not in tableHeaders:
-                      tableHeaders.append(brand)
-                      
+                  brand = brands.split('.',1)[0]
+                  x = int(counter['-'])
+                  if x >= 3:
+                      brand = brand.split('-',4)[3]
+                      if brand not in tableHeaders:
+                          tableHeaders.append(brand)
+                  else:
+                      if brand not in tableHeaders:
+                          tableHeaders.append(brand)
+                   
+
 
     return(tableHeaders)
 
@@ -78,23 +84,35 @@ def href_To_Values(hrefList,finalList):
                     finalList[items].append(elements)
 
     return(finalList)
-def searchURLs():
-    
+
+
 
 
 def main():
     
     finalList = {}
-    url = 'https://beavertools.com/brands.html'
+    url = 'https://beavertools.com/brands/amana.html'
     hrefList = HrefList(url)
     word = 'brands'
     tableHeaders= table_Headers(hrefList,word)
     brandURL = brand_URL(hrefList,tableHeaders)
     listToKeys =list_To_Keys(tableHeaders,finalList)
     hrefToValues = href_To_Values(hrefList,finalList)
-    print(finalList)
+    brandItems = brand_Items(brandURL,tableHeaders)
+    with open('Brands.txt','w')as f:
+
+        for key,value in finalList.items():
+            for v in value:
+                lines=(key+ ': '+v)
+                f.write(lines)
+                f.write('\n')
+        
     
 
+ 
+
+if __name__ == "__main__":
+    main()
     
     
 
