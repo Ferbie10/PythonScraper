@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 from collections import Counter
 
 class Web_Search:
+
     def __init__(self,URL):
         self.URL = URL
 
@@ -18,8 +19,9 @@ class Web_Search:
             hrefList.append(test)
         return(hrefList)
 
-class Filter_By_Keyword():
-    def __init__(self,keyWord,hrefList):
+class Filter():
+
+    def __init__(self,keyWord,hrefList,directoryNumber):
         self.hrefList = hrefList
           
         self.keyWord = keyWord
@@ -32,13 +34,22 @@ class Filter_By_Keyword():
                 keywordListed.append(items)
         return(keywordListed)
 
+    def filterByDirectory(self):
+        directoryList= []
+        for items in self.hrefList:
+            count=Counter(items)
+            y = int(count['/'])
+            v = self.directoryNumber +2
+            x = y -v
+            split = items.rsplit('/',x)[0]
+            directoryList.append(split)
+        return(directoryList)
+
+
 
  
 p = Web_Search('https://beavertools.com/brands/amana.html')
 hrefList = p.Web_list()
 keyWord = 'amana'
-x = Filter_By_Keyword(keyWord,hrefList)
+x = Filter(keyWord,hrefList,1)
 
-for items in x:
-
-    websearch= Web_Search(items) 
