@@ -1,13 +1,11 @@
 import requests
 from bs4 import BeautifulSoup
 from collections import Counter
-
+import os
 class Web_Search:
 
     def __init__(self,URL):
         self.URL = URL
-
-    def Web_list(self):
         headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:50.0) Gecko/20100101 Firefox/50.0'}
         source=requests.get(self.URL, headers=headers)
         soup = BeautifulSoup(source.text, "html.parser")
@@ -21,25 +19,28 @@ class Web_Search:
 
 class Filter():
 
-    def __init__(self,keyWord,hrefList,directoryNumber):
+    def __init__(self,hrefList):
         self.hrefList = hrefList
           
-        self.keyWord = keyWord
-  
-    def filterByKeyword(self):
+        
+    classmethod
+    def filterByKeyword(cls,keyWord):
         keywordListed = []
-        for items in self.hrefList:
+        cls.keyWord = keyWord
+        for items in hrefList:
 
-            if self.keyWord in items:
+            if cls.keyWord in items:
                 keywordListed.append(items)
         return(keywordListed)
+    classmethod
 
-    def filterByDirectory(self):
+    def filterByDirectory(cls,folderNumber):
         directoryList= []
-        for items in self.hrefList:
+        cls.folderNumber = folderNumber
+        for items in hrefList:
             count=Counter(items)
             y = int(count['/'])
-            v = self.directoryNumber +2
+            v = cls.directoryNumber +2
             x = y -v
             split = items.rsplit('/',x)[0]
             directoryList.append(split)
@@ -48,8 +49,30 @@ class Filter():
 
 
  
-p = Web_Search('https://beavertools.com/brands/amana.html')
-hrefList = p.Web_list()
-keyWord = 'amana'
-x = Filter(keyWord,hrefList,1)
+
+
+
+
+def main():
+    x =0
+    while True:
+        userAnswer = input('Do you wish run again? (Y)es or (N)o ').upper()
+        system('cls')
+        if userAnswer == 'Y':
+            userURL = input('Please, enter a URL:  ')
+            hrefList = Web_Search(userURL)
+            Filter(hrefList)
+            doFilter = int(input('Do you wish to filter the results by [1]keyword, or [2]folder number'))
+            if doFilter == 1:
+                keyWord = input('Enter the keyword you would like to search by:  ')
+                filtered = Filter.filterByDirectory(keyWord)
+                return(filtered)
+            elif doFilter == 2:
+                folderNumber = int(input('What folder number would you like to filter by?  '))
+                filtered = Filter.filterByDirectory(folderNumber)
+                return(filtered)
+            else:
+                print("Invaild selection, Please enter 1 for keyword or 2 for folder number:")
+                break
+
 
