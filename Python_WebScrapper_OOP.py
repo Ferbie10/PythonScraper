@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 from collections import Counter
 import os
+
 class Web_Search:
 
     def __init__(self,URL):
