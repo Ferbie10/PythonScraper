@@ -58,28 +58,36 @@ class Filter():
 def main():
     x =0
     while True:
-        userAnswer = input('Do you wish run again? (Y)es or (N)o: ').upper()
+        userURL = input('Please, enter a URL:  ')
+        try:
+            url = Web_Search(userURL)
+            hrefList=url.webSeach()
+        except:
+            print("Invaild URL Please Try again")
+
+        userAnswer = input('Would you like to search by Keyword OR Directory[1] ')
         os.system('cls')
-        while userAnswer == 'Y':
-            userURL = input('Please, enter a URL:  ')
-            try:
-                url = Web_Search(userURL)
-                hrefList=url.webSeach()
-                doFilter = int(input('Do you wish to filter the results by [1]keyword, or [2]folder number:  '))
-                if doFilter == 1:
-                    keyWord = input('Enter the keyword you would like to search by:  ')
-                    filtered = Filter(hrefList)
-                    keywordFiltered=filtered.filterByKeyword(keyWord)
-                    break
-                elif doFilter == 2:
-                    folderNumber = int(input('What folder number would you like to filter by:  '))
-                    filtered = Filter(hrefList)
-                    folderNumberFilter = filtered.filterByDirectory(folderNumber)
-                    break
-                else:
-                    print("Invaild selection, Please enter 1 for keyword or 2 for folder number:")
-            except:
-                print("Invaild URL Please Try again")
+        if userAnswer == 1:
+            doFilter = input('Would you like to search by keyword[1] or Directory[2]')
+            if doFilter == 1:
+                keyWord = input('Enter the keyword you would like to search by:  ')
+                filtered = Filter(hrefList)
+                keywordFiltered=filtered.filterByKeyword(keyWord)
+                break
+            elif doFilter == 2:
+                folderNumber = int(input('What folder number would you like to filter by:  '))
+                filtered = Filter(hrefList)
+                folderNumberFilter = filtered.filterByDirectory(folderNumber)
+                break
+            else:
+                print("Invaild selection, Please enter 1 for keyword or 2 for folder number:")
+            
+        elif userAnswer == 2:
+            drillNum = 0
+            for items in hrefList:
+                drillNum +=1
+                url = Web_Search(items)
+                hrefList = url.webSearch()
         
                 
     
